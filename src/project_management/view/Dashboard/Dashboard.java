@@ -3,16 +3,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package project_management.view.Dashboard;
-
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import project_management.controller.ConnectDBController;
+import java.sql.*;
 /**
  *
  * @author HCMUT
  */
 public class Dashboard extends javax.swing.JPanel {
-
     /**
      * Creates new form Dashboard
      */
+    private Connection connection = new ConnectDBController().getConnection();
+    private Statement statement;
+    
     public Dashboard() {
         initComponents();
     }
@@ -26,9 +31,29 @@ public class Dashboard extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        project_info = new javax.swing.JFrame();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        pro_name_txt = new javax.swing.JTextField();
+        des_txt = new javax.swing.JTextField();
+        mana_txt = new javax.swing.JTextField();
+        bud_txt = new javax.swing.JTextField();
+        dcStart = new com.toedter.calendar.JDateChooser();
+        dcDue = new com.toedter.calendar.JDateChooser();
+        cancel_add_project = new javax.swing.JButton();
+        add_project_info = new javax.swing.JButton();
+        delete_project_confirm = new javax.swing.JFrame();
+        jLabel2 = new javax.swing.JLabel();
+        confirm_delete_yes = new javax.swing.JButton();
+        close_confirm_delete = new javax.swing.JButton();
         jpnDashboard = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnNewProject = new javax.swing.JButton();
+        btnDeleteProject = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -41,14 +66,14 @@ public class Dashboard extends javax.swing.JPanel {
         jLabel13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        lbName = new javax.swing.JLabel();
+        lbStartTime = new javax.swing.JLabel();
+        lbStatus = new javax.swing.JLabel();
+        pbProgress = new javax.swing.JProgressBar();
+        lbDueTime = new javax.swing.JLabel();
+        lbManager = new javax.swing.JLabel();
+        lbDescription = new javax.swing.JLabel();
+        lbBudget = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -59,32 +84,178 @@ public class Dashboard extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
+        lbTotalModules = new javax.swing.JLabel();
+        lbTotalMembers = new javax.swing.JLabel();
+        lbTotalTeams = new javax.swing.JLabel();
+        lbTotalTasks = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
 
-        jButton1.setBackground(new java.awt.Color(152, 193, 217));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("New Project");
-        jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(71, 193, 217), 2, true));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        project_info.setMinimumSize(new java.awt.Dimension(400, 300));
+
+        jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel26.setText("Project Information");
+
+        jLabel27.setText("Project Name:");
+
+        jLabel28.setText("Description:");
+
+        jLabel29.setText("Manager:");
+
+        jLabel30.setText("Start date:");
+
+        jLabel31.setText("Due date:");
+
+        jLabel32.setText("Budget:");
+
+        cancel_add_project.setText("Cancel");
+        cancel_add_project.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                cancel_add_projectActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(238, 108, 77));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Delete Project");
-        jButton2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(182, 108, 77), 2, true));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        add_project_info.setText("Add");
+        add_project_info.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                add_project_infoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout project_infoLayout = new javax.swing.GroupLayout(project_info.getContentPane());
+        project_info.getContentPane().setLayout(project_infoLayout);
+        project_infoLayout.setHorizontalGroup(
+            project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(project_infoLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(project_infoLayout.createSequentialGroup()
+                        .addGroup(project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(add_project_info)
+                                .addGroup(project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel32, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel31, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel30, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel29, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pro_name_txt)
+                            .addComponent(des_txt)
+                            .addComponent(mana_txt)
+                            .addComponent(bud_txt)
+                            .addComponent(dcStart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dcDue, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))))
+                .addContainerGap(99, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, project_infoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cancel_add_project)
+                .addGap(44, 44, 44))
+        );
+        project_infoLayout.setVerticalGroup(
+            project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(project_infoLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27)
+                    .addComponent(pro_name_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel28)
+                    .addComponent(des_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel29)
+                    .addComponent(mana_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel30)
+                    .addComponent(dcStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel31)
+                    .addComponent(dcDue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bud_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel32))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(project_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancel_add_project)
+                    .addComponent(add_project_info))
+                .addGap(24, 24, 24))
+        );
+
+        delete_project_confirm.setMinimumSize(new java.awt.Dimension(419, 136));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("Do you really want to delete this project?");
+
+        confirm_delete_yes.setText("Yes");
+        confirm_delete_yes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirm_delete_yesActionPerformed(evt);
+            }
+        });
+
+        close_confirm_delete.setText("No");
+        close_confirm_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                close_confirm_deleteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout delete_project_confirmLayout = new javax.swing.GroupLayout(delete_project_confirm.getContentPane());
+        delete_project_confirm.getContentPane().setLayout(delete_project_confirmLayout);
+        delete_project_confirmLayout.setHorizontalGroup(
+            delete_project_confirmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(delete_project_confirmLayout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addComponent(jLabel2)
+                .addContainerGap(96, Short.MAX_VALUE))
+            .addGroup(delete_project_confirmLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(confirm_delete_yes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(close_confirm_delete)
+                .addGap(49, 49, 49))
+        );
+        delete_project_confirmLayout.setVerticalGroup(
+            delete_project_confirmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(delete_project_confirmLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(delete_project_confirmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(confirm_delete_yes)
+                    .addComponent(close_confirm_delete))
+                .addContainerGap(55, Short.MAX_VALUE))
+        );
+
+        btnNewProject.setBackground(new java.awt.Color(152, 193, 217));
+        btnNewProject.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnNewProject.setForeground(new java.awt.Color(255, 255, 255));
+        btnNewProject.setText("New Project");
+        btnNewProject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(71, 193, 217), 2, true));
+        btnNewProject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewProjectActionPerformed(evt);
+            }
+        });
+
+        btnDeleteProject.setBackground(new java.awt.Color(238, 108, 77));
+        btnDeleteProject.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDeleteProject.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeleteProject.setText("Delete Project");
+        btnDeleteProject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(182, 108, 77), 2, true));
+        btnDeleteProject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteProjectActionPerformed(evt);
             }
         });
 
@@ -153,29 +324,28 @@ public class Dashboard extends javax.swing.JPanel {
                 .addContainerGap(83, Short.MAX_VALUE))
         );
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel2.setText("Project name");
+        lbName.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lbName.setText("-");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel3.setText("19/04/2023");
+        lbStartTime.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lbStartTime.setText("-");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel8.setText("In progress");
+        lbStatus.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lbStatus.setText("-");
 
-        jProgressBar1.setValue(25);
-        jProgressBar1.setStringPainted(true);
+        pbProgress.setStringPainted(true);
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel9.setText("19/05/2023");
+        lbDueTime.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lbDueTime.setText("-");
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel12.setText("Manager");
+        lbManager.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lbManager.setText("-");
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel14.setText("Description");
+        lbDescription.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lbDescription.setText("-");
 
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel16.setText("$600");
+        lbBudget.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lbBudget.setText("-");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -184,35 +354,35 @@ public class Dashboard extends javax.swing.JPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel14)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16))
+                    .addComponent(lbName)
+                    .addComponent(lbStatus)
+                    .addComponent(lbStartTime)
+                    .addComponent(lbDueTime)
+                    .addComponent(lbManager)
+                    .addComponent(lbDescription)
+                    .addComponent(pbProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbBudget))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
+                .addComponent(lbName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel14)
+                .addComponent(lbDescription)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel12)
+                .addComponent(lbManager)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(lbStartTime)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel9)
+                .addComponent(lbDueTime)
                 .addGap(18, 18, 18)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pbProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel8)
+                .addComponent(lbStatus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel16)
+                .addComponent(lbBudget)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -283,7 +453,7 @@ public class Dashboard extends javax.swing.JPanel {
         jLabel18.setText("Total members:");
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        jLabel19.setText("Total team:");
+        jLabel19.setText("Total teams:");
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel20.setText("Total tasks:");
@@ -315,17 +485,17 @@ public class Dashboard extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel21.setText("3");
+        lbTotalModules.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lbTotalModules.setText("3");
 
-        jLabel22.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel22.setText("14");
+        lbTotalMembers.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lbTotalMembers.setText("5");
 
-        jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel23.setText("4");
+        lbTotalTeams.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lbTotalTeams.setText("3");
 
-        jLabel24.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel24.setText("25");
+        lbTotalTasks.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lbTotalTasks.setText("6");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -334,23 +504,23 @@ public class Dashboard extends javax.swing.JPanel {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel21)
-                    .addComponent(jLabel22)
-                    .addComponent(jLabel23)
-                    .addComponent(jLabel24))
+                    .addComponent(lbTotalModules)
+                    .addComponent(lbTotalMembers)
+                    .addComponent(lbTotalTeams)
+                    .addComponent(lbTotalTasks))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel21)
+                .addComponent(lbTotalModules)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel24)
+                .addComponent(lbTotalTasks)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel23)
+                .addComponent(lbTotalTeams)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel22)
+                .addComponent(lbTotalMembers)
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -419,9 +589,9 @@ public class Dashboard extends javax.swing.JPanel {
             .addGroup(jpnDashboardLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnNewProject, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDeleteProject, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jpnDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jpnDashboardLayout.createSequentialGroup()
@@ -433,8 +603,8 @@ public class Dashboard extends javax.swing.JPanel {
             jpnDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(jpnDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnNewProject, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDeleteProject, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jpnDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jpnDashboardLayout.createSequentialGroup()
                     .addGap(58, 58, 58)
@@ -457,43 +627,96 @@ public class Dashboard extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnNewProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewProjectActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        if(lbStatus.getText().equals("-")) {
+            project_info.setLocationRelativeTo(null);
+            project_info.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this,"Another project is in progress!");
+        }
+    }//GEN-LAST:event_btnNewProjectActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnDeleteProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProjectActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        delete_project_confirm.setLocationRelativeTo(null);
+        delete_project_confirm.setVisible(true);
+    }//GEN-LAST:event_btnDeleteProjectActionPerformed
+
+    private void cancel_add_projectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel_add_projectActionPerformed
+        // TODO add your handling code here:
+        project_info.setVisible(false);
+        project_info.dispose();
+    }//GEN-LAST:event_cancel_add_projectActionPerformed
+
+    private void add_project_infoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_project_infoActionPerformed
+        // TODO add your handling code here:
+        lbName.setText(pro_name_txt.getText());
+        lbStatus.setText("In progress");
+        lbManager.setText(mana_txt.getText());
+        lbDescription.setText(des_txt.getText());
+        lbBudget.setText(bud_txt.getText());
+        lbStartTime.setText(new SimpleDateFormat("yyyy-MM-dd").format(dcStart.getDate()));
+        lbDueTime.setText(new SimpleDateFormat("yyyy-MM-dd").format(dcDue.getDate()));
+        pbProgress.setValue(0);
+        project_info.setVisible(false);
+        project_info.dispose();
+    }//GEN-LAST:event_add_project_infoActionPerformed
+
+    private void confirm_delete_yesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirm_delete_yesActionPerformed
+        // TODO add your handling code here:
+        delete_project_confirm.setVisible(false);
+        delete_project_confirm.dispose();
+        lbName.setText("-");
+        lbStatus.setText("-");
+        lbManager.setText("-");
+        lbDescription.setText("-");
+        lbBudget.setText("-");
+        lbStartTime.setText("-");
+        lbDueTime.setText("-");
+    }//GEN-LAST:event_confirm_delete_yesActionPerformed
+
+    private void close_confirm_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close_confirm_deleteActionPerformed
+        // TODO add your handling code here:
+        delete_project_confirm.setVisible(false);
+        delete_project_confirm.dispose();
+    }//GEN-LAST:event_close_confirm_deleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton add_project_info;
+    private javax.swing.JButton btnDeleteProject;
+    private javax.swing.JButton btnNewProject;
+    private javax.swing.JTextField bud_txt;
+    private javax.swing.JButton cancel_add_project;
+    private javax.swing.JButton close_confirm_delete;
+    private javax.swing.JButton confirm_delete_yes;
+    private com.toedter.calendar.JDateChooser dcDue;
+    private com.toedter.calendar.JDateChooser dcStart;
+    private javax.swing.JFrame delete_project_confirm;
+    private javax.swing.JTextField des_txt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
@@ -504,7 +727,21 @@ public class Dashboard extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JProgressBar jProgressBar1;
     public javax.swing.JPanel jpnDashboard;
+    private javax.swing.JLabel lbBudget;
+    private javax.swing.JLabel lbDescription;
+    private javax.swing.JLabel lbDueTime;
+    private javax.swing.JLabel lbManager;
+    private javax.swing.JLabel lbName;
+    private javax.swing.JLabel lbStartTime;
+    private javax.swing.JLabel lbStatus;
+    private javax.swing.JLabel lbTotalMembers;
+    private javax.swing.JLabel lbTotalModules;
+    private javax.swing.JLabel lbTotalTasks;
+    private javax.swing.JLabel lbTotalTeams;
+    private javax.swing.JTextField mana_txt;
+    private javax.swing.JProgressBar pbProgress;
+    private javax.swing.JTextField pro_name_txt;
+    private javax.swing.JFrame project_info;
     // End of variables declaration//GEN-END:variables
 }

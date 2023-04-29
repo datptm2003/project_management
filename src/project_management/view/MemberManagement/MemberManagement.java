@@ -200,6 +200,7 @@ public class MemberManagement extends javax.swing.JPanel {
         jfAddMember.setTitle("Add Member");
         jfAddMember.setBackground(new java.awt.Color(12, 210, 229));
         jfAddMember.setLocation(new java.awt.Point(500, 200));
+        jfAddMember.setMinimumSize(new java.awt.Dimension(519, 306));
 
         lbName_AddMember.setText("Name (*):");
 
@@ -351,6 +352,7 @@ public class MemberManagement extends javax.swing.JPanel {
         jfEditMember.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jfEditMember.setTitle("Update Member Info");
         jfEditMember.setLocation(new java.awt.Point(500, 300));
+        jfEditMember.setMinimumSize(new java.awt.Dimension(511, 308));
         jfEditMember.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 jfEditMemberformWindowOpened(evt);
@@ -803,6 +805,7 @@ public class MemberManagement extends javax.swing.JPanel {
         );
 
         jpnExecutive.setBackground(new java.awt.Color(238, 238, 238));
+        jpnExecutive.setMinimumSize(new java.awt.Dimension(562, 527));
 
         btnAddMember1.setBackground(new java.awt.Color(61, 90, 128));
         btnAddMember1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project_management/image/person_add_FILL0_wght400_GRAD0_opsz48.png"))); // NOI18N
@@ -962,6 +965,8 @@ public class MemberManagement extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        jfAddExecutive.setMinimumSize(new java.awt.Dimension(519, 241));
+
         lbName_AddMember1.setText("Name (*):");
 
         lbPersonalId_AddMember1.setText("Personal ID (*):");
@@ -1087,6 +1092,8 @@ public class MemberManagement extends javax.swing.JPanel {
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
+        jfEditExecutive.setMinimumSize(new java.awt.Dimension(511, 308));
+
         closeEdit1.setBackground(new java.awt.Color(0, 153, 204));
         closeEdit1.setForeground(new java.awt.Color(255, 255, 255));
         closeEdit1.setText("Cancel");
@@ -1207,6 +1214,8 @@ public class MemberManagement extends javax.swing.JPanel {
                 .addGap(48, 48, 48))
         );
 
+        jfRemoveExecutive.setMinimumSize(new java.awt.Dimension(400, 226));
+
         jLabel3.setText("Id:");
 
         jLabel4.setText("Name:");
@@ -1311,9 +1320,9 @@ public class MemberManagement extends javax.swing.JPanel {
         jpnMemberTitle.setLayout(jpnMemberTitleLayout);
         jpnMemberTitleLayout.setHorizontalGroup(
             jpnMemberTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 808, Short.MAX_VALUE)
             .addGroup(jpnMemberTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(lbMemberTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE))
+                .addComponent(lbMemberTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE))
         );
         jpnMemberTitleLayout.setVerticalGroup(
             jpnMemberTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1387,10 +1396,15 @@ public class MemberManagement extends javax.swing.JPanel {
         jpnMember.setLayout(jpnMemberLayout);
         jpnMemberLayout.setHorizontalGroup(
             jpnMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpnMemberTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(srpMember, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
             .addGroup(jpnMemberLayout.createSequentialGroup()
-                .addGap(115, 115, 115)
+                .addGroup(jpnMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnViewExecutive, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jpnMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(srpMember, javax.swing.GroupLayout.PREFERRED_SIZE, 814, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jpnMemberTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 38, Short.MAX_VALUE))
+            .addGroup(jpnMemberLayout.createSequentialGroup()
+                .addGap(116, 116, 116)
                 .addComponent(btnAddMember)
                 .addGap(74, 74, 74)
                 .addComponent(btnDeleteMember)
@@ -1401,10 +1415,6 @@ public class MemberManagement extends javax.swing.JPanel {
                 .addGap(67, 67, 67)
                 .addComponent(btnFilterMember)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnMemberLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnViewExecutive, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
         );
         jpnMemberLayout.setVerticalGroup(
             jpnMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1413,26 +1423,30 @@ public class MemberManagement extends javax.swing.JPanel {
                 .addGap(10, 10, 10)
                 .addComponent(btnViewExecutive, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(srpMember, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
+                .addComponent(srpMember, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
                 .addGroup(jpnMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAddMember)
                     .addComponent(btnDeleteMember)
                     .addComponent(btnEditMember)
                     .addComponent(btnFilterMember)
                     .addComponent(btnDetailsMember))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpnMember, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jpnMember, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpnMember, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jpnMember, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
     public static javax.swing.JFrame getJfAddMember() {
