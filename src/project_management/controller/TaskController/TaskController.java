@@ -149,9 +149,10 @@ public class TaskController {
         int currentId = -1;
         try {
             statement = connection.createStatement();
-            String query = "INSERT INTO task (name,description,status,completeness) VALUES ('" + 
+            String query = "INSERT INTO task (name,description,status,completeness,module_id,team_id,member_id) VALUES ('" + 
                     task.getName() + "','" + task.getDescription() + "','" +
-                    task.getStatus() + "','" + task.getCompleteness() + ");";
+                    task.getStatus() + "'," + task.getCompleteness() + "," + 
+                    task.getModule_id() + "," + task.getTeam_id() + "," + task.getMember_id() + ");";
             statement.executeUpdate(query,Statement.RETURN_GENERATED_KEYS);
             ResultSet resultSet = statement.getGeneratedKeys();
             
@@ -184,6 +185,8 @@ public class TaskController {
                     "', description='" + task.getDescription() + 
                     "', status='" + task.getStatus() + 
                     "', completeness='" + task.getCompleteness() + 
+                    "', team_id='" + task.getTeam_id() + 
+                    "', member_id='" + task.getMember_id() + 
                     "' WHERE id=" + task.getId() + ";";
             statement.executeUpdate(query,Statement.RETURN_GENERATED_KEYS);
             ResultSet resultSet = statement.getGeneratedKeys();

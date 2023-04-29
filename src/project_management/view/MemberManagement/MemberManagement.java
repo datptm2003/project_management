@@ -8,6 +8,7 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import project_management.model.Member;
 import project_management.model.Team;
+import project_management.model.Executive;
 import project_management.controller.MemberController.MemberController;
 
 /**
@@ -36,7 +37,6 @@ public class MemberManagement extends javax.swing.JPanel {
      */
     private MemberController controller = new MemberController();
     
-    MemberList memberList = new MemberList();
     //private searchResult search;
     List<Member> memberListTemp = null;
     private ArrayList<Member> list;
@@ -44,12 +44,14 @@ public class MemberManagement extends javax.swing.JPanel {
     public ArrayList<Member> foundlist;
     DefaultTableModel modelf;
     DefaultTableModel model;
+    DefaultTableModel modelE;
     
     public MemberManagement() {
         initComponents();
         list= controller.getAllMembers();
         foundlist=new ArrayList<>();
         model = (DefaultTableModel) tblMember.getModel();
+        modelE = (DefaultTableModel) tblExecutive.getModel();
         //modelf = (DefaultTableModel) foundTable.getModel();
         for (int i = 0; i < list.size(); ++i) {
             model.addRow(new Object[]{
@@ -99,7 +101,6 @@ public class MemberManagement extends javax.swing.JPanel {
         lbMajor_EditMember = new javax.swing.JLabel();
         lbPosition_EditMember = new javax.swing.JLabel();
         txfEmail_EditMember = new javax.swing.JTextField();
-        btnNewTeam_EditMember = new javax.swing.JButton();
         dcDateOfBirth_EditMember = new com.toedter.calendar.JDateChooser();
         lbPersonalId_EditMember = new javax.swing.JLabel();
         cbGender_EditMember = new javax.swing.JComboBox<>();
@@ -136,6 +137,53 @@ public class MemberManagement extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         searchTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jfExecutiveList = new javax.swing.JFrame();
+        jpnExecutive = new javax.swing.JPanel();
+        btnAddMember1 = new javax.swing.JButton();
+        btnDeleteMember1 = new javax.swing.JButton();
+        btnEditMember1 = new javax.swing.JButton();
+        jpnMemberTitle1 = new javax.swing.JPanel();
+        lbMemberTitle1 = new javax.swing.JLabel();
+        srpMember1 = new javax.swing.JScrollPane();
+        tblExecutive = new javax.swing.JTable();
+        btnDetailsMember1 = new javax.swing.JButton();
+        jfAddExecutive = new javax.swing.JFrame();
+        lbName_AddMember1 = new javax.swing.JLabel();
+        lbPersonalId_AddMember1 = new javax.swing.JLabel();
+        lbEmail_AddMember1 = new javax.swing.JLabel();
+        lbDateOfBirth_AddMember1 = new javax.swing.JLabel();
+        lbGender_AddMember1 = new javax.swing.JLabel();
+        lbMajor_AddMember1 = new javax.swing.JLabel();
+        txfName_AddMember1 = new javax.swing.JTextField();
+        txfPersonalId_AddMember1 = new javax.swing.JTextField();
+        txfEmail_AddMember1 = new javax.swing.JTextField();
+        txfMajor_AddMember1 = new javax.swing.JTextField();
+        btnAdd_AddMember1 = new javax.swing.JButton();
+        btnCancel_AddMember1 = new javax.swing.JButton();
+        dcDateOfBirth_AddMember1 = new com.toedter.calendar.JDateChooser();
+        cbGender_AddMember1 = new javax.swing.JComboBox<>();
+        jfEditExecutive = new javax.swing.JFrame();
+        closeEdit1 = new javax.swing.JButton();
+        txfName_EditMember1 = new javax.swing.JTextField();
+        lbName_EditMember1 = new javax.swing.JLabel();
+        lbDateOfBirth_EditMember1 = new javax.swing.JLabel();
+        txfMajor_EditMember1 = new javax.swing.JTextField();
+        txfPersonalId_EditMember1 = new javax.swing.JTextField();
+        lbMajor_EditMember1 = new javax.swing.JLabel();
+        txfEmail_EditMember1 = new javax.swing.JTextField();
+        dcDateOfBirth_EditMember1 = new com.toedter.calendar.JDateChooser();
+        lbPersonalId_EditMember1 = new javax.swing.JLabel();
+        cbGender_EditMember1 = new javax.swing.JComboBox<>();
+        lbEmail_EditMember1 = new javax.swing.JLabel();
+        lbGender_EditMember1 = new javax.swing.JLabel();
+        btnUpdate_EditMember1 = new javax.swing.JButton();
+        jfRemoveExecutive = new javax.swing.JFrame();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        removeID1 = new javax.swing.JTextField();
+        removeName1 = new javax.swing.JTextField();
+        removeBtn1 = new javax.swing.JButton();
+        closeRemove1 = new javax.swing.JButton();
         jpnMember = new javax.swing.JPanel();
         btnAddMember = new javax.swing.JButton();
         btnDeleteMember = new javax.swing.JButton();
@@ -146,6 +194,7 @@ public class MemberManagement extends javax.swing.JPanel {
         srpMember = new javax.swing.JScrollPane();
         tblMember = new javax.swing.JTable();
         btnDetailsMember = new javax.swing.JButton();
+        btnViewExecutive = new javax.swing.JButton();
 
         jfAddMember.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jfAddMember.setTitle("Add Member");
@@ -353,14 +402,6 @@ public class MemberManagement extends javax.swing.JPanel {
 
         lbPosition_EditMember.setText("Position (*):");
 
-        btnNewTeam_EditMember.setBackground(new java.awt.Color(204, 204, 204));
-        btnNewTeam_EditMember.setText("New");
-        btnNewTeam_EditMember.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewTeam_EditMemberActionPerformed(evt);
-            }
-        });
-
         lbPersonalId_EditMember.setText("Personal ID (*):");
 
         cbGender_EditMember.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
@@ -405,8 +446,7 @@ public class MemberManagement extends javax.swing.JPanel {
                     .addGroup(jfEditMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jfEditMemberLayout.createSequentialGroup()
                             .addComponent(cbTeam_EditMember, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnNewTeam_EditMember, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(65, 65, 65))
                         .addComponent(txfName_EditMember, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txfEmail_EditMember, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbPosition_EditMember, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -441,12 +481,10 @@ public class MemberManagement extends javax.swing.JPanel {
                     .addComponent(txfPersonalId_EditMember, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jfEditMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbTeam_EditMember)
+                    .addComponent(cbTeam_EditMember, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                     .addComponent(lbDateOfBirth_EditMember)
                     .addComponent(dcDateOfBirth_EditMember, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jfEditMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnNewTeam_EditMember)
-                        .addComponent(lbTeam_EditMember)))
+                    .addComponent(lbTeam_EditMember))
                 .addGap(18, 18, 18)
                 .addGroup(jfEditMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbPosition_EditMember)
@@ -764,6 +802,477 @@ public class MemberManagement extends javax.swing.JPanel {
                 .addGap(0, 31, Short.MAX_VALUE))
         );
 
+        jpnExecutive.setBackground(new java.awt.Color(238, 238, 238));
+
+        btnAddMember1.setBackground(new java.awt.Color(61, 90, 128));
+        btnAddMember1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project_management/image/person_add_FILL0_wght400_GRAD0_opsz48.png"))); // NOI18N
+        btnAddMember1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddMember1MouseClicked(evt);
+            }
+        });
+        btnAddMember1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddMember1ActionPerformed(evt);
+            }
+        });
+
+        btnDeleteMember1.setBackground(new java.awt.Color(61, 90, 128));
+        btnDeleteMember1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project_management/image/person_remove_FILL0_wght400_GRAD0_opsz48.png"))); // NOI18N
+        btnDeleteMember1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeleteMember1MouseClicked(evt);
+            }
+        });
+        btnDeleteMember1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteMember1ActionPerformed(evt);
+            }
+        });
+
+        btnEditMember1.setBackground(new java.awt.Color(61, 90, 128));
+        btnEditMember1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project_management/image/edit_note_FILL0_wght400_GRAD0_opsz48.png"))); // NOI18N
+        btnEditMember1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditMember1MouseClicked(evt);
+            }
+        });
+        btnEditMember1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditMember1ActionPerformed(evt);
+            }
+        });
+
+        jpnMemberTitle1.setBackground(new java.awt.Color(61, 90, 128));
+        jpnMemberTitle1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(41, 50, 65), 4));
+
+        lbMemberTitle1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbMemberTitle1.setForeground(new java.awt.Color(255, 255, 255));
+        lbMemberTitle1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbMemberTitle1.setText("Executive list");
+
+        javax.swing.GroupLayout jpnMemberTitle1Layout = new javax.swing.GroupLayout(jpnMemberTitle1);
+        jpnMemberTitle1.setLayout(jpnMemberTitle1Layout);
+        jpnMemberTitle1Layout.setHorizontalGroup(
+            jpnMemberTitle1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jpnMemberTitle1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(lbMemberTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE))
+        );
+        jpnMemberTitle1Layout.setVerticalGroup(
+            jpnMemberTitle1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 37, Short.MAX_VALUE)
+            .addGroup(jpnMemberTitle1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnMemberTitle1Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbMemberTitle1)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        tblExecutive.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Name", "Personal ID"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        srpMember1.setViewportView(tblExecutive);
+        if (tblExecutive.getColumnModel().getColumnCount() > 0) {
+            tblExecutive.getColumnModel().getColumn(0).setResizable(false);
+            tblExecutive.getColumnModel().getColumn(1).setResizable(false);
+            tblExecutive.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        btnDetailsMember1.setBackground(new java.awt.Color(61, 90, 128));
+        btnDetailsMember1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project_management/image/quick_reference_all_FILL0_wght400_GRAD0_opsz48.png"))); // NOI18N
+        btnDetailsMember1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDetailsMember1MouseClicked(evt);
+            }
+        });
+        btnDetailsMember1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetailsMember1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpnExecutiveLayout = new javax.swing.GroupLayout(jpnExecutive);
+        jpnExecutive.setLayout(jpnExecutiveLayout);
+        jpnExecutiveLayout.setHorizontalGroup(
+            jpnExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnExecutiveLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(btnAddMember1)
+                .addGap(62, 62, 62)
+                .addComponent(btnDeleteMember1)
+                .addGap(56, 56, 56)
+                .addComponent(btnEditMember1)
+                .addGap(72, 72, 72)
+                .addComponent(btnDetailsMember1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jpnExecutiveLayout.createSequentialGroup()
+                .addGroup(jpnExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jpnMemberTitle1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(srpMember1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
+        );
+        jpnExecutiveLayout.setVerticalGroup(
+            jpnExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnExecutiveLayout.createSequentialGroup()
+                .addComponent(jpnMemberTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(srpMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addGroup(jpnExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAddMember1)
+                    .addComponent(btnDeleteMember1)
+                    .addComponent(btnEditMember1)
+                    .addComponent(btnDetailsMember1))
+                .addContainerGap(105, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jfExecutiveListLayout = new javax.swing.GroupLayout(jfExecutiveList.getContentPane());
+        jfExecutiveList.getContentPane().setLayout(jfExecutiveListLayout);
+        jfExecutiveListLayout.setHorizontalGroup(
+            jfExecutiveListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jfExecutiveListLayout.createSequentialGroup()
+                .addComponent(jpnExecutive, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jfExecutiveListLayout.setVerticalGroup(
+            jfExecutiveListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jfExecutiveListLayout.createSequentialGroup()
+                .addComponent(jpnExecutive, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        lbName_AddMember1.setText("Name (*):");
+
+        lbPersonalId_AddMember1.setText("Personal ID (*):");
+
+        lbEmail_AddMember1.setText("Email:");
+
+        lbDateOfBirth_AddMember1.setText("Date of Birth:");
+
+        lbGender_AddMember1.setText("Gender:");
+
+        lbMajor_AddMember1.setText("Major:");
+
+        txfName_AddMember1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txfName_AddMember1ActionPerformed(evt);
+            }
+        });
+
+        txfPersonalId_AddMember1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txfPersonalId_AddMember1ActionPerformed(evt);
+            }
+        });
+
+        btnAdd_AddMember1.setBackground(new java.awt.Color(0, 153, 204));
+        btnAdd_AddMember1.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdd_AddMember1.setText("ADD");
+        btnAdd_AddMember1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAdd_AddMember1MouseClicked(evt);
+            }
+        });
+        btnAdd_AddMember1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdd_AddMember1ActionPerformed(evt);
+            }
+        });
+
+        btnCancel_AddMember1.setBackground(new java.awt.Color(204, 204, 204));
+        btnCancel_AddMember1.setText("Cancel");
+        btnCancel_AddMember1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancel_AddMember1MouseClicked(evt);
+            }
+        });
+        btnCancel_AddMember1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancel_AddMember1ActionPerformed(evt);
+            }
+        });
+
+        cbGender_AddMember1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
+
+        javax.swing.GroupLayout jfAddExecutiveLayout = new javax.swing.GroupLayout(jfAddExecutive.getContentPane());
+        jfAddExecutive.getContentPane().setLayout(jfAddExecutiveLayout);
+        jfAddExecutiveLayout.setHorizontalGroup(
+            jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jfAddExecutiveLayout.createSequentialGroup()
+                .addGroup(jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jfAddExecutiveLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jfAddExecutiveLayout.createSequentialGroup()
+                                .addComponent(lbEmail_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txfEmail_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jfAddExecutiveLayout.createSequentialGroup()
+                                .addGroup(jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbName_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbGender_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbGender_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txfName_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addGroup(jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jfAddExecutiveLayout.createSequentialGroup()
+                                .addGroup(jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbPersonalId_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbDateOfBirth_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dcDateOfBirth_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txfPersonalId_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jfAddExecutiveLayout.createSequentialGroup()
+                                .addComponent(lbMajor_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(34, 34, 34)
+                                .addComponent(txfMajor_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jfAddExecutiveLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAdd_AddMember1)
+                        .addGap(110, 110, 110)
+                        .addComponent(btnCancel_AddMember1)
+                        .addGap(135, 135, 135)))
+                .addGap(20, 20, 20))
+        );
+        jfAddExecutiveLayout.setVerticalGroup(
+            jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jfAddExecutiveLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbName_AddMember1)
+                    .addComponent(txfName_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbPersonalId_AddMember1)
+                    .addComponent(txfPersonalId_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbDateOfBirth_AddMember1)
+                        .addComponent(lbGender_AddMember1)
+                        .addComponent(cbGender_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dcDateOfBirth_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txfEmail_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbEmail_AddMember1)
+                    .addComponent(lbMajor_AddMember1)
+                    .addComponent(txfMajor_AddMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48)
+                .addGroup(jfAddExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd_AddMember1)
+                    .addComponent(btnCancel_AddMember1))
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+
+        closeEdit1.setBackground(new java.awt.Color(0, 153, 204));
+        closeEdit1.setForeground(new java.awt.Color(255, 255, 255));
+        closeEdit1.setText("Cancel");
+        closeEdit1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeEdit1MouseClicked(evt);
+            }
+        });
+        closeEdit1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeEdit1ActionPerformed(evt);
+            }
+        });
+
+        txfName_EditMember1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txfName_EditMember1ActionPerformed(evt);
+            }
+        });
+
+        lbName_EditMember1.setText("Name (*):");
+
+        lbDateOfBirth_EditMember1.setText("Date of Birth:");
+
+        txfPersonalId_EditMember1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txfPersonalId_EditMember1ActionPerformed(evt);
+            }
+        });
+
+        lbMajor_EditMember1.setText("Major:");
+
+        lbPersonalId_EditMember1.setText("Personal ID (*):");
+
+        cbGender_EditMember1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
+
+        lbEmail_EditMember1.setText("Email:");
+
+        lbGender_EditMember1.setText("Gender:");
+
+        btnUpdate_EditMember1.setBackground(new java.awt.Color(0, 153, 204));
+        btnUpdate_EditMember1.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdate_EditMember1.setText("Update");
+        btnUpdate_EditMember1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUpdate_EditMember1MouseClicked(evt);
+            }
+        });
+        btnUpdate_EditMember1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdate_EditMember1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jfEditExecutiveLayout = new javax.swing.GroupLayout(jfEditExecutive.getContentPane());
+        jfEditExecutive.getContentPane().setLayout(jfEditExecutiveLayout);
+        jfEditExecutiveLayout.setHorizontalGroup(
+            jfEditExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jfEditExecutiveLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnUpdate_EditMember1)
+                .addGap(127, 127, 127)
+                .addComponent(closeEdit1)
+                .addGap(104, 104, 104))
+            .addGroup(jfEditExecutiveLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jfEditExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbEmail_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbName_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbGender_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jfEditExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbGender_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txfName_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txfEmail_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGroup(jfEditExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jfEditExecutiveLayout.createSequentialGroup()
+                        .addGroup(jfEditExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbPersonalId_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbDateOfBirth_EditMember1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jfEditExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dcDateOfBirth_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txfPersonalId_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jfEditExecutiveLayout.createSequentialGroup()
+                        .addComponent(lbMajor_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(txfMajor_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jfEditExecutiveLayout.setVerticalGroup(
+            jfEditExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jfEditExecutiveLayout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addGroup(jfEditExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbName_EditMember1)
+                    .addComponent(txfName_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbPersonalId_EditMember1)
+                    .addComponent(txfPersonalId_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jfEditExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbDateOfBirth_EditMember1)
+                    .addComponent(dcDateOfBirth_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jfEditExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbGender_EditMember1)
+                        .addComponent(cbGender_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jfEditExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txfEmail_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbEmail_EditMember1)
+                    .addComponent(lbMajor_EditMember1)
+                    .addComponent(txfMajor_EditMember1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addGroup(jfEditExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(closeEdit1)
+                    .addComponent(btnUpdate_EditMember1))
+                .addGap(48, 48, 48))
+        );
+
+        jLabel3.setText("Id:");
+
+        jLabel4.setText("Name:");
+
+        removeBtn1.setBackground(new java.awt.Color(51, 153, 255));
+        removeBtn1.setForeground(new java.awt.Color(255, 255, 255));
+        removeBtn1.setText("Find and Remove");
+        removeBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                removeBtn1MouseClicked(evt);
+            }
+        });
+        removeBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeBtn1ActionPerformed(evt);
+            }
+        });
+
+        closeRemove1.setBackground(new java.awt.Color(51, 102, 255));
+        closeRemove1.setForeground(new java.awt.Color(255, 255, 255));
+        closeRemove1.setText("Cancel");
+        closeRemove1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeRemove1MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jfRemoveExecutiveLayout = new javax.swing.GroupLayout(jfRemoveExecutive.getContentPane());
+        jfRemoveExecutive.getContentPane().setLayout(jfRemoveExecutiveLayout);
+        jfRemoveExecutiveLayout.setHorizontalGroup(
+            jfRemoveExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jfRemoveExecutiveLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addGroup(jfRemoveExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jfRemoveExecutiveLayout.createSequentialGroup()
+                        .addGroup(jfRemoveExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(45, 45, 45)
+                        .addGroup(jfRemoveExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(removeID1)
+                            .addComponent(removeName1, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)))
+                    .addGroup(jfRemoveExecutiveLayout.createSequentialGroup()
+                        .addComponent(removeBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(closeRemove1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+        jfRemoveExecutiveLayout.setVerticalGroup(
+            jfRemoveExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jfRemoveExecutiveLayout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(jfRemoveExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(removeID1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(jfRemoveExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(removeName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGroup(jfRemoveExecutiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(removeBtn1)
+                    .addComponent(closeRemove1))
+                .addGap(36, 36, 36))
+        );
+
         jpnMember.setBackground(new java.awt.Color(238, 238, 238));
 
         btnAddMember.setBackground(new java.awt.Color(61, 90, 128));
@@ -853,7 +1362,9 @@ public class MemberManagement extends javax.swing.JPanel {
             tblMember.getColumnModel().getColumn(1).setResizable(false);
             tblMember.getColumnModel().getColumn(2).setResizable(false);
             tblMember.getColumnModel().getColumn(3).setResizable(false);
+            tblMember.getColumnModel().getColumn(3).setHeaderValue("Positon");
             tblMember.getColumnModel().getColumn(4).setResizable(false);
+            tblMember.getColumnModel().getColumn(4).setHeaderValue("Team");
         }
 
         btnDetailsMember.setBackground(new java.awt.Color(61, 90, 128));
@@ -861,6 +1372,14 @@ public class MemberManagement extends javax.swing.JPanel {
         btnDetailsMember.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnDetailsMemberMouseClicked(evt);
+            }
+        });
+
+        btnViewExecutive.setBackground(new java.awt.Color(102, 153, 255));
+        btnViewExecutive.setText("View Executive List");
+        btnViewExecutive.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewExecutiveActionPerformed(evt);
             }
         });
 
@@ -882,13 +1401,19 @@ public class MemberManagement extends javax.swing.JPanel {
                 .addGap(67, 67, 67)
                 .addComponent(btnFilterMember)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnMemberLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnViewExecutive, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jpnMemberLayout.setVerticalGroup(
             jpnMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpnMemberLayout.createSequentialGroup()
                 .addComponent(jpnMemberTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(srpMember, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(btnViewExecutive, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(srpMember, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addGroup(jpnMemberLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAddMember)
@@ -969,7 +1494,9 @@ public class MemberManagement extends javax.swing.JPanel {
             }
             cbGender_EditMember.setSelectedIndex((t.getGender()== Member.Gender.MALE) ? 0 : 1);   
             txfMajor_EditMember.setText(t.getMajor()); 
-            cbPosition_EditMember.setSelectedIndex((t.getPosition()== Member.Position.MEMBER) ? 0 : 1);   
+            if (t.getPosition()== Member.Position.MEMBER) cbPosition_EditMember.setSelectedIndex(0);
+            else if (t.getPosition()== Member.Position.LEADER) cbPosition_EditMember.setSelectedIndex(1);
+            else cbPosition_EditMember.setSelectedIndex(2);
             txfEmail_EditMember.setText(t.getEmail()); 
             ArrayList<Team> list = controller.getAllTeams();
                 for (int i = 0; i < list.size(); ++i) {
@@ -992,7 +1519,7 @@ public class MemberManagement extends javax.swing.JPanel {
         if(row<0) {JOptionPane.showMessageDialog(this,"Please select a member");}
         else
         {
-            int id=(int) tblMember.getModel().getValueAt(selectedIndex,0);
+            int id=(int) tblMember.getModel().getValueAt(row,0);
         Member selectedMember=controller.getMemberById(id);
         String message = "ID: " + selectedMember.getId() + "\n"
                + "Name: " + selectedMember.getName() + "\n"
@@ -1023,13 +1550,15 @@ JOptionPane.showMessageDialog(null, message, "Member Information", JOptionPane.I
         t.setPersonal_id(txfPersonalId_AddMember.getText());
         t.setDate_of_birth(new SimpleDateFormat("yyyy-MM-dd").format(dcDateOfBirth_AddMember.getDate()));
         t.setGender((cbGender_AddMember.getSelectedIndex() == 0) ? Member.Gender.MALE : Member.Gender.FEMALE);
-        t.setMajor(txfMajor_EditMember.getText());
-        t.setPosition((cbPosition_AddMember.getSelectedIndex() == 0) ? Member.Position.MEMBER : Member.Position.LEADER);
+        t.setMajor(txfMajor_AddMember.getText());
+        if (cbPosition_AddMember.getSelectedIndex() == 0) t.setPosition(Member.Position.MEMBER);
+        else if (cbPosition_AddMember.getSelectedIndex() == 1) t.setPosition(Member.Position.LEADER);
+        else t.setPosition(Member.Position.EXECUTIVE);
+        //t.setPosition((cbPosition_AddMember.getSelectedIndex() == 0) ? Member.Position.MEMBER : ((cbPosition_AddMember.getSelectedIndex() == 1) ? Member.Position.LEADER : Member.Position.EXECUTIVE));
         t.setEmail(txfEmail_AddMember.getText());
         if(cbTeam_AddMember.getItemAt(cbTeam_AddMember.getSelectedIndex()).equals("None")) {} else {
             t.setTeam_id(java.lang.Integer.parseInt(cbTeam_AddMember.getItemAt(cbTeam_AddMember.getSelectedIndex())));
         }
-        System.out.println(t.getTeam_id());
          // TODO add your handling code here:
         int n = controller.appendMember(t);
         
@@ -1163,10 +1692,6 @@ JOptionPane.showMessageDialog(null, message, "Member Information", JOptionPane.I
         // TODO add your handling code here:
     }//GEN-LAST:event_cbPosition_EditMemberActionPerformed
 
-    private void btnNewTeam_EditMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewTeam_EditMemberActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNewTeam_EditMemberActionPerformed
-
     private void btnUpdate_EditMemberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdate_EditMemberMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_btnUpdate_EditMemberMouseClicked
@@ -1186,7 +1711,9 @@ JOptionPane.showMessageDialog(null, message, "Member Information", JOptionPane.I
             t.setDate_of_birth(new SimpleDateFormat("yyyy-MM-dd").format(dcDateOfBirth_EditMember.getDate()));
             t.setGender((cbGender_EditMember.getSelectedIndex() == 0) ? Member.Gender.MALE : Member.Gender.FEMALE);
             t.setMajor(txfMajor_EditMember.getText());
-            t.setPosition((cbPosition_EditMember.getSelectedIndex() == 0) ? Member.Position.MEMBER : Member.Position.LEADER);
+            if (cbPosition_AddMember.getSelectedIndex() == 0) t.setPosition(Member.Position.MEMBER);
+            else if (cbPosition_AddMember.getSelectedIndex() == 1) t.setPosition(Member.Position.LEADER);
+            else t.setPosition(Member.Position.EXECUTIVE);
             t.setEmail(txfEmail_EditMember.getText());
             if(cbTeam_EditMember.getItemAt(cbTeam_EditMember.getSelectedIndex()).equals("None")) {} else {
                 t.setTeam_id(java.lang.Integer.parseInt(cbTeam_EditMember.getItemAt(cbTeam_EditMember.getSelectedIndex())));
@@ -1217,32 +1744,222 @@ JOptionPane.showMessageDialog(null, message, "Member Information", JOptionPane.I
         // TODO add your handling code here:
     }//GEN-LAST:event_cbTeam_AddMemberActionPerformed
 
-    private void member_add_buttonMouseClicked(ActionEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    private void txfName_AddMember1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfName_AddMember1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txfName_AddMember1ActionPerformed
 
-    private Object addmember() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    private void showlist() {
-    // Tạo đối tượng DefaultTableModel
-    DefaultTableModel model = new DefaultTableModel();
-    model.addColumn("No.");
-    model.addColumn("Name");
-    model.addColumn("Personal ID");
-    model.addColumn("Position");
-    model.addColumn("Team");
-    
-    // Thêm các phần tử trong danh sách memberList vào model
-    int i = 1;
-    for (int j = 0; j < memberList.getSize(); j++) {
-        Member member = memberList.getMember(j);
-        model.addRow(new Object[]{i, member.getName(), member.getId(), member.getPosition(), member.getTeam_id()});
-        i++;
-    }
-    this.tblMember.setModel(model);
-}
+    private void txfPersonalId_AddMember1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfPersonalId_AddMember1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txfPersonalId_AddMember1ActionPerformed
 
+    private void btnAdd_AddMember1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdd_AddMember1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAdd_AddMember1MouseClicked
+
+    private void btnCancel_AddMember1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancel_AddMember1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancel_AddMember1MouseClicked
+
+    private void btnCancel_AddMember1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancel_AddMember1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancel_AddMember1ActionPerformed
+
+    private void closeEdit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeEdit1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_closeEdit1MouseClicked
+
+    private void closeEdit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeEdit1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_closeEdit1ActionPerformed
+
+    private void txfName_EditMember1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfName_EditMember1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txfName_EditMember1ActionPerformed
+
+    private void txfPersonalId_EditMember1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfPersonalId_EditMember1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txfPersonalId_EditMember1ActionPerformed
+
+    private void btnUpdate_EditMember1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdate_EditMember1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdate_EditMember1MouseClicked
+
+    private void btnUpdate_EditMember1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate_EditMember1ActionPerformed
+        // TODO add your handling code here:
+        int confirmed = JOptionPane.showConfirmDialog(null, 
+                    "Are you sure you want to edit this row?", 
+                    "Confirm Edit", JOptionPane.YES_NO_OPTION);
+
+        if (confirmed == JOptionPane.YES_OPTION){
+            
+            Executive t = new Executive();
+            int edit_id = (int) tblExecutive.getModel().getValueAt(selectedIndex,0);
+            t.setId(edit_id);
+            t.setName(txfName_EditMember1.getText());
+            t.setPersonal_id(txfPersonalId_EditMember1.getText());
+            t.setDate_of_birth(new SimpleDateFormat("yyyy-MM-dd").format(dcDateOfBirth_EditMember1.getDate()));
+            t.setGender((cbGender_EditMember1.getSelectedIndex() == 0) ? Executive.Gender.MALE : Executive.Gender.FEMALE);
+            t.setMajor(txfMajor_EditMember1.getText());
+            t.setEmail(txfEmail_EditMember.getText());
+            
+            txfName_EditMember1.setText("");    
+            txfPersonalId_EditMember1.setText("");   
+            //dcDateOfBirth_EditMember.setDate(new java.util.Date());
+            cbGender_EditMember1.setSelectedIndex(0);   
+            txfMajor_EditMember1.setText(""); 
+            txfEmail_EditMember1.setText(""); 
+            jfEditMember.setVisible(false);
+            
+            modelE.setValueAt((Object)edit_id,selectedIndex,0);
+            modelE.setValueAt(t.getName(),selectedIndex,1);
+            modelE.setValueAt(t.getPersonal_id(),selectedIndex,2);
+            
+            controller.editExecutive(t);
+        }
+    }//GEN-LAST:event_btnUpdate_EditMember1ActionPerformed
+
+    private void removeBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeBtn1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_removeBtn1MouseClicked
+
+    private void removeBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_removeBtn1ActionPerformed
+
+    private void closeRemove1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeRemove1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_closeRemove1MouseClicked
+
+    private void btnAddMember1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMember1MouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnAddMember1MouseClicked
+
+    private void btnDeleteMember1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMember1MouseClicked
+        // TODO add your handling code here:
+        int selectedRow = tblExecutive.getSelectedRow();
+        int remove_id = (int) tblExecutive.getModel().getValueAt(selectedRow,0);
+        if(selectedRow == -1) JOptionPane.showMessageDialog(btnAdd_AddMember1, "Please select row to delete");
+        // Nếu có hàng được chọn, hiển thị hộp thoại xác nhận trước khi xóa hàng
+        if (selectedRow != -1) {
+            int confirmed = JOptionPane.showConfirmDialog(null, 
+                "Are you sure you want to delete this row?", 
+                "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+            if (confirmed == JOptionPane.YES_OPTION) {
+                model.removeRow(selectedRow);
+                controller.removeExecutiveById(remove_id);
+            }
+        }   
+    }//GEN-LAST:event_btnDeleteMember1MouseClicked
+
+    private void btnEditMember1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMember1MouseClicked
+        // TODO add your handling code here:
+        selectedIndex = tblExecutive.getSelectedRow();
+        int edit_id = 0;
+        if (controller.isEmpty()){
+            JOptionPane.showMessageDialog(btnAdd_AddMember1, "There is nothing to edit");
+        }
+        else if (selectedIndex == -1){
+            JOptionPane.showMessageDialog(btnAdd_AddMember1, "Select row to edit");
+        }
+        else {
+            edit_id = (int) tblExecutive.getModel().getValueAt(selectedIndex,0);
+            Executive t = controller.getExecutiveById(edit_id);
+            txfName_EditMember1.setText(t.getName());    
+            txfPersonalId_EditMember1.setText(t.getPersonal_id());  
+            try {
+                dcDateOfBirth_EditMember1.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(t.getDate_of_birth()));
+            }
+            catch (Exception e) {
+                System.out.println(e);
+            }
+            cbGender_EditMember1.setSelectedIndex((t.getGender()== Executive.Gender.MALE) ? 0 : 1);   
+            txfMajor_EditMember1.setText(t.getMajor()); 
+            txfEmail_EditMember1.setText(t.getEmail()); 
+            jfEditExecutive.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_btnEditMember1MouseClicked
+
+    private void btnDetailsMember1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDetailsMember1MouseClicked
+        // TODO add your handling code here:
+        int row= tblExecutive.getSelectedRow();
+        if(row<0) {JOptionPane.showMessageDialog(this,"Please select a member");}
+        else
+        {
+            int id=(int) tblExecutive.getModel().getValueAt(row,0);
+        Executive selectedMember=controller.getExecutiveById(id);
+        String message = "ID: " + selectedMember.getId() + "\n"
+               + "Name: " + selectedMember.getName() + "\n"
+               + "date of birth: " + selectedMember.getDate_of_birth() + "\n"
+               + "Email: " + selectedMember.getEmail() + "\n"
+               + "Gender: " + selectedMember.getGender() + "\n"
+               + "Major: " + selectedMember.getMajor();
+
+JOptionPane.showMessageDialog(null, message, "Member Information", JOptionPane.INFORMATION_MESSAGE);}
+
+    }//GEN-LAST:event_btnDetailsMember1MouseClicked
+
+    private void btnViewExecutiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewExecutiveActionPerformed
+        // TODO add your handling code here:
+        jfExecutiveList.setVisible(true);
+        ArrayList<Executive> listE= controller.getAllExecutives();
+        
+        for (int i = 0; i < listE.size(); ++i) {
+            modelE.addRow(new Object[]{
+                listE.get(i).getId(), listE.get(i).getName(), listE.get(i).getPersonal_id()
+            });
+        }
+        
+    }//GEN-LAST:event_btnViewExecutiveActionPerformed
+
+    private void btnAddMember1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMember1ActionPerformed
+        // TODO add your handling code here:
+        jfAddExecutive.setVisible(true);
+    }//GEN-LAST:event_btnAddMember1ActionPerformed
+
+    private void btnDeleteMember1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteMember1ActionPerformed
+        // TODO add your handling code here:
+        jfRemoveExecutive.setVisible(true);
+    }//GEN-LAST:event_btnDeleteMember1ActionPerformed
+
+    private void btnEditMember1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMember1ActionPerformed
+        // TODO add your handling code here:
+        jfEditExecutive.setVisible(true);
+    }//GEN-LAST:event_btnEditMember1ActionPerformed
+
+    private void btnDetailsMember1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailsMember1ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnDetailsMember1ActionPerformed
+
+    private void btnAdd_AddMember1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd_AddMember1ActionPerformed
+        // TODO add your handling code here:
+        Executive t = new Executive();
+        modelE = (DefaultTableModel) tblExecutive.getModel();
+        t.setName(txfName_AddMember1.getText());
+        t.setPersonal_id(txfPersonalId_AddMember1.getText());
+        t.setDate_of_birth(new SimpleDateFormat("yyyy-MM-dd").format(dcDateOfBirth_AddMember.getDate()));
+        t.setGender((cbGender_AddMember1.getSelectedIndex() == 0) ? Executive.Gender.MALE : Executive.Gender.FEMALE);
+        t.setMajor(txfMajor_AddMember1.getText());
+        //t.setPosition((cbPosition_AddMember.getSelectedIndex() == 0) ? Member.Position.MEMBER : ((cbPosition_AddMember.getSelectedIndex() == 1) ? Member.Position.LEADER : Member.Position.EXECUTIVE));
+        t.setEmail(txfEmail_AddMember1.getText());
+         // TODO add your handling code here:
+        int n = controller.appendExecutive(t);
+        
+        txfName_AddMember1.setText("");    
+        txfPersonalId_AddMember1.setText("");   
+        //dcDateOfBirth_EditMember.setDate(new java.util.Date());
+        cbGender_AddMember1.setSelectedIndex(0);   
+        txfMajor_AddMember1.setText(""); 
+        txfEmail_AddMember1.setText(""); 
+        jfAddExecutive.setVisible(false);
+        
+        modelE.addRow(new Object[]{
+            n, t.getName(), t.getPersonal_id()
+        });
+        
+    }//GEN-LAST:event_btnAdd_AddMember1ActionPerformed
     /*@Override
     public void searchTable(List<Member> a) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -1252,102 +1969,41 @@ JOptionPane.showMessageDialog(null, message, "Member Information", JOptionPane.I
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }*/
 
-    private Container getContentPane() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    private static class AddMember {
-
-        public AddMember() {
-        }
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-
-    public class MemberList {
-    private List<Member> memberList;
-    public int count;
-    public MemberList() {
-        memberList = new ArrayList<>();
-        count = 0;
-    }
-    
-    public void addMember(Member member) {
-        memberList.add(member);
-        count++;
-    }
-    
-    public void removeMember(int index) {
-        memberList.remove(index);
-        count--;
-    }
-   public boolean removeMember(int id, String name) {
-    for (Member member : memberList) {
-        if (member.getId() == id && member.getName().equals(name)) {
-            memberList.remove(member);
-            count--;
-            return true;
-        }
-    }
-    return false;
-}
-    public Member getMember(int index) {
-        return memberList.get(index);
-    }
-    
-    public int getSize() {
-        return memberList.size();
-    }
-    public List<Member> getMemberList() {
-    return memberList;
-}
-    public List<Member> ListSearch(String name, String id, String pos, String team) {
-    List<Member> searchResult = new ArrayList<>();
-    for (Member member : memberList) {
-        if ((name.isEmpty() || member.getName().equals(name))
-                && (id.isEmpty() || member.getId() == Integer.parseInt(id))
-                && (pos.isEmpty() || member.getPosition().equals(pos))
-                && (team.isEmpty() || member.getTeam_id() == Integer.parseInt(team))) {
-            searchResult.add(member);
-        }
-    }
-    return searchResult;
-}
-    public Member detail(int id)
-    {
-        for(Member member :memberList)
-        {
-            if(member.getId() == id)
-                return member;
-        }
-        return null;
-    }
-    }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton another;
     private javax.swing.JButton btnAddMember;
+    private javax.swing.JButton btnAddMember1;
     private javax.swing.JButton btnAdd_AddMember;
+    private javax.swing.JButton btnAdd_AddMember1;
     private javax.swing.JButton btnCancel_AddMember;
+    private javax.swing.JButton btnCancel_AddMember1;
     private javax.swing.JButton btnDeleteMember;
+    private javax.swing.JButton btnDeleteMember1;
     private javax.swing.JButton btnDetailsMember;
+    private javax.swing.JButton btnDetailsMember1;
     private javax.swing.JButton btnEditMember;
+    private javax.swing.JButton btnEditMember1;
     private javax.swing.JButton btnFilterMember;
-    private javax.swing.JButton btnNewTeam_EditMember;
     private javax.swing.JButton btnUpdate_EditMember;
+    private javax.swing.JButton btnUpdate_EditMember1;
+    private javax.swing.JButton btnViewExecutive;
     private javax.swing.JComboBox<String> cbGender_AddMember;
+    private javax.swing.JComboBox<String> cbGender_AddMember1;
     private javax.swing.JComboBox<String> cbGender_EditMember;
+    private javax.swing.JComboBox<String> cbGender_EditMember1;
     private javax.swing.JComboBox<String> cbPosition_AddMember;
     private javax.swing.JComboBox<String> cbPosition_EditMember;
     public static javax.swing.JComboBox<String> cbTeam_AddMember;
     private javax.swing.JComboBox<String> cbTeam_EditMember;
     private javax.swing.JButton closeEdit;
+    private javax.swing.JButton closeEdit1;
     private javax.swing.JButton closeRemove;
+    private javax.swing.JButton closeRemove1;
     private javax.swing.JButton closeSearch;
     private com.toedter.calendar.JDateChooser dcDateOfBirth_AddMember;
+    private com.toedter.calendar.JDateChooser dcDateOfBirth_AddMember1;
     private com.toedter.calendar.JDateChooser dcDateOfBirth_EditMember;
+    private com.toedter.calendar.JDateChooser dcDateOfBirth_EditMember1;
     private javax.swing.JButton findbtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -1358,53 +2014,87 @@ JOptionPane.showMessageDialog(null, message, "Member Information", JOptionPane.I
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JFrame jfAddExecutive;
     public static javax.swing.JFrame jfAddMember;
+    private javax.swing.JFrame jfEditExecutive;
     public static javax.swing.JFrame jfEditMember;
+    private javax.swing.JFrame jfExecutiveList;
+    private javax.swing.JFrame jfRemoveExecutive;
     private javax.swing.JFrame jfRemoveMember;
     private javax.swing.JFrame jfRemoveSelectedMember;
     private javax.swing.JFrame jfSearchMember;
     private javax.swing.JFrame jfSearchResult;
+    private javax.swing.JPanel jpnExecutive;
     private javax.swing.JPanel jpnMember;
     private javax.swing.JPanel jpnMemberTitle;
+    private javax.swing.JPanel jpnMemberTitle1;
     private javax.swing.JLabel lbDateOfBirth_AddMember;
+    private javax.swing.JLabel lbDateOfBirth_AddMember1;
     private javax.swing.JLabel lbDateOfBirth_EditMember;
+    private javax.swing.JLabel lbDateOfBirth_EditMember1;
     private javax.swing.JLabel lbEmail_AddMember;
+    private javax.swing.JLabel lbEmail_AddMember1;
     private javax.swing.JLabel lbEmail_EditMember;
+    private javax.swing.JLabel lbEmail_EditMember1;
     private javax.swing.JLabel lbGender_AddMember;
+    private javax.swing.JLabel lbGender_AddMember1;
     private javax.swing.JLabel lbGender_EditMember;
+    private javax.swing.JLabel lbGender_EditMember1;
     private javax.swing.JLabel lbMajor_AddMember;
+    private javax.swing.JLabel lbMajor_AddMember1;
     private javax.swing.JLabel lbMajor_EditMember;
+    private javax.swing.JLabel lbMajor_EditMember1;
     private javax.swing.JLabel lbMemberTitle;
+    private javax.swing.JLabel lbMemberTitle1;
     private javax.swing.JLabel lbName_AddMember;
+    private javax.swing.JLabel lbName_AddMember1;
     private javax.swing.JLabel lbName_EditMember;
+    private javax.swing.JLabel lbName_EditMember1;
     private javax.swing.JLabel lbPersonalId_AddMember;
+    private javax.swing.JLabel lbPersonalId_AddMember1;
     private javax.swing.JLabel lbPersonalId_EditMember;
+    private javax.swing.JLabel lbPersonalId_EditMember1;
     private javax.swing.JLabel lbPosition_AddMember;
     private javax.swing.JLabel lbPosition_EditMember;
     private javax.swing.JLabel lbTeam_AddMember;
     private javax.swing.JLabel lbTeam_EditMember;
     private javax.swing.JButton notsure;
     private javax.swing.JButton removeBtn;
+    private javax.swing.JButton removeBtn1;
     private javax.swing.JTextField removeID;
+    private javax.swing.JTextField removeID1;
     private javax.swing.JTextField removeName;
+    private javax.swing.JTextField removeName1;
     private javax.swing.JTextField searchID;
     private javax.swing.JTextField searchName;
     private javax.swing.JTextField searchPos;
     private javax.swing.JTable searchTable;
     private javax.swing.JTextField searchTeam;
     private javax.swing.JScrollPane srpMember;
+    private javax.swing.JScrollPane srpMember1;
     private javax.swing.JButton sure;
+    private javax.swing.JTable tblExecutive;
     private javax.swing.JTable tblMember;
     private javax.swing.JTextField txfEmail_AddMember;
+    private javax.swing.JTextField txfEmail_AddMember1;
     private javax.swing.JTextField txfEmail_EditMember;
+    private javax.swing.JTextField txfEmail_EditMember1;
     private javax.swing.JTextField txfMajor_AddMember;
+    private javax.swing.JTextField txfMajor_AddMember1;
     private javax.swing.JTextField txfMajor_EditMember;
+    private javax.swing.JTextField txfMajor_EditMember1;
     private javax.swing.JTextField txfName_AddMember;
+    private javax.swing.JTextField txfName_AddMember1;
     private javax.swing.JTextField txfName_EditMember;
+    private javax.swing.JTextField txfName_EditMember1;
     private javax.swing.JTextField txfPersonalId_AddMember;
+    private javax.swing.JTextField txfPersonalId_AddMember1;
     private javax.swing.JTextField txfPersonalId_EditMember;
+    private javax.swing.JTextField txfPersonalId_EditMember1;
     // End of variables declaration//GEN-END:variables
 }

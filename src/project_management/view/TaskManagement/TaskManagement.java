@@ -11,12 +11,62 @@ import project_management.controller.TaskController.TaskController;
 import project_management.controller.ModuleController.ModuleController;
 import project_management.model.Module;
 import project_management.model.Task;
+import project_management.model.Team;
+import project_management.model.Member;
+import project_management.model.Executive;
+
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  *
  * @author HCMUT
  */
+
+
 public class TaskManagement extends javax.swing.JPanel {
+    class ItemChangeAddListener implements ItemListener{
+        @Override
+        public void itemStateChanged(ItemEvent event) {
+            if (cbTeam_AddTask.getSelectedIndex() == 0) cbMember_AddTask.setEnabled(false);
+            else if (event.getStateChange() == ItemEvent.SELECTED) {
+                Object item = event.getItem();
+                // do something with object
+                cbMember_AddTask.setEnabled(true);
+                ArrayList<Team> list = taskController.getAllTeams();
+                if (cbTeam_AddTask.getSelectedIndex() == 0) cbMember_AddTask.setEnabled(false);
+                else {
+                    ArrayList<Member> memList = new ArrayList<>();
+                    memList = taskController.getAllMembersByTeamID(list.get(cbTeam_AddTask.getSelectedIndex()-1).getId());
+                    for (int i = 0; i < memList.size(); ++i) {
+                        cbMember_AddTask.addItem(Integer.toString(memList.get(i).getId()));
+                    }
+                }
+                
+            }
+        }       
+    }
+    class ItemChangeDetailListener implements ItemListener{
+        @Override
+        public void itemStateChanged(ItemEvent event) {
+            if (cbTeam_DetailTask.getSelectedIndex() == 0) cbMember_DetailTask.setEnabled(false);
+            else if (event.getStateChange() == ItemEvent.SELECTED) {
+                Object item = event.getItem();
+                // do something with object
+                cbMember_DetailTask.setEnabled(true);
+                ArrayList<Team> list = taskController.getAllTeams();
+                ArrayList<Member> memList = new ArrayList<>();
+                if (cbTeam_DetailTask.getSelectedIndex() == 0) cbMember_DetailTask.setEnabled(false);
+                else {
+                    memList = taskController.getAllMembersByTeamID(list.get(cbTeam_DetailTask.getSelectedIndex()-1).getId());
+                    for (int i = 0; i < memList.size(); ++i) {
+                        cbMember_DetailTask.addItem(Integer.toString(memList.get(i).getId()));
+                    }
+                }
+                
+            }
+        }       
+    }
     private ModuleController moduleController = new ModuleController();
     private TaskController taskController = new TaskController();
     
@@ -41,6 +91,8 @@ public class TaskManagement extends javax.swing.JPanel {
                 listModule.get(i).getCompleteness(), listModule.get(i).getExecutive_id()
             });
         }
+        cbTeam_AddTask.addItemListener(new ItemChangeAddListener());
+        cbTeam_DetailTask.addItemListener(new ItemChangeDetailListener());
     }
     
     static int ID_module = 0;
@@ -88,7 +140,7 @@ public class TaskManagement extends javax.swing.JPanel {
         btnUpdate_UpdateModule = new javax.swing.JButton();
         btnView_UpdateModule = new javax.swing.JButton();
         cbStatus_UpdateModule = new javax.swing.JComboBox<>();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbExecutive_UpdateModule = new javax.swing.JComboBox<>();
         jfDeleteModule = new javax.swing.JFrame();
         create_new_label1 = new javax.swing.JLabel();
         create_new_yes1 = new javax.swing.JButton();
@@ -153,12 +205,12 @@ public class TaskManagement extends javax.swing.JPanel {
         pbCompleteness_DetailTask = new javax.swing.JProgressBar();
         txfCompleteness_DetailTask = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
-        rxfId_DetailTask = new javax.swing.JTextField();
+        txfId_DetailTask = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
         cbStatus_DetailTask = new javax.swing.JComboBox<>();
         jLabel34 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cbTeam_DetailTask = new javax.swing.JComboBox<>();
+        cbMember_DetailTask = new javax.swing.JComboBox<>();
         jpnTask = new javax.swing.JPanel();
         jpnModuleTitle = new javax.swing.JPanel();
         task_tasklist_jl = new javax.swing.JLabel();
@@ -302,7 +354,12 @@ public class TaskManagement extends javax.swing.JPanel {
 
         cbStatus_UpdateModule.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "New", "In progress", "Postponed", "Completed", "Cancelled" }));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbExecutive_UpdateModule.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
+        cbExecutive_UpdateModule.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbExecutive_UpdateModuleActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jfUpdateModuleLayout = new javax.swing.GroupLayout(jfUpdateModule.getContentPane());
         jfUpdateModule.getContentPane().setLayout(jfUpdateModuleLayout);
@@ -330,7 +387,7 @@ public class TaskManagement extends javax.swing.JPanel {
                                 .addComponent(btnCancel_UpdateModule))
                             .addComponent(pbCompleteness_UpdateModule, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
                             .addComponent(cbStatus_UpdateModule, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(cbExecutive_UpdateModule, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jfUpdateModuleLayout.createSequentialGroup()
                         .addGroup(jfUpdateModuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbTitle_UpdateModule, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -368,7 +425,7 @@ public class TaskManagement extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jfUpdateModuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbExecutive_UpdateModule)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbExecutive_UpdateModule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(jfUpdateModuleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbStatus_UpdateModule)
@@ -670,10 +727,20 @@ public class TaskManagement extends javax.swing.JPanel {
         });
 
         cbTeam_AddTask.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
+        cbTeam_AddTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbTeam_AddTaskActionPerformed(evt);
+            }
+        });
 
         jLabel33.setText("Implemented by member:");
 
         cbMember_AddTask.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
+        cbMember_AddTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbMember_AddTaskActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jfAddTaskLayout = new javax.swing.GroupLayout(jfAddTask.getContentPane());
         jfAddTask.getContentPane().setLayout(jfAddTaskLayout);
@@ -812,7 +879,7 @@ public class TaskManagement extends javax.swing.JPanel {
 
         jLabel31.setText("ID:");
 
-        rxfId_DetailTask.setEditable(false);
+        txfId_DetailTask.setEditable(false);
 
         jLabel32.setText("Status:");
 
@@ -820,9 +887,9 @@ public class TaskManagement extends javax.swing.JPanel {
 
         jLabel34.setText("Implemented by member:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
+        cbTeam_DetailTask.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
+        cbMember_DetailTask.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
 
         javax.swing.GroupLayout jfDetailTaskLayout = new javax.swing.GroupLayout(jfDetailTask.getContentPane());
         jfDetailTask.getContentPane().setLayout(jfDetailTaskLayout);
@@ -842,14 +909,14 @@ public class TaskManagement extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jfDetailTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txfDescription_DetailTask, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(cbTeam_DetailTask, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(81, 81, 81))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jfDetailTaskLayout.createSequentialGroup()
                         .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(rxfId_DetailTask, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txfId_DetailTask, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(202, 202, 202)
                         .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -873,7 +940,7 @@ public class TaskManagement extends javax.swing.JPanel {
                                         .addComponent(pbCompleteness_DetailTask, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txfCompleteness_DetailTask, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(cbMember_DetailTask, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jfDetailTaskLayout.setVerticalGroup(
@@ -883,7 +950,7 @@ public class TaskManagement extends javax.swing.JPanel {
                 .addGroup(jfDetailTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
                     .addComponent(jLabel31)
-                    .addComponent(rxfId_DetailTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txfId_DetailTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel32)
                     .addComponent(cbStatus_DetailTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -897,12 +964,12 @@ public class TaskManagement extends javax.swing.JPanel {
                 .addGap(7, 7, 7)
                 .addGroup(jfDetailTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel29)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbTeam_DetailTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jfDetailTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel34)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                    .addComponent(cbMember_DetailTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(jfDetailTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jfDetailTaskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -962,6 +1029,11 @@ public class TaskManagement extends javax.swing.JPanel {
         btnAddModule.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 add_module(evt);
+            }
+        });
+        btnAddModule.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddModuleActionPerformed(evt);
             }
         });
 
@@ -1102,6 +1174,11 @@ public class TaskManagement extends javax.swing.JPanel {
             int ID = java.lang.Integer.parseInt(model_table_module.getValueAt(tblModule.getSelectedRow(),0).toString()); 
             Module module = moduleController.getModuleById(ID);
             ArrayList<Task> task_of_module = moduleController.getAllTasksById(ID);
+            txfName_DetailModule.setText(module.getName());
+            txfId_DetailModule.setText(Integer.toString(module.getId()));
+            txfDescription_DetailModule.setText(module.getDescription());
+            txfExecutive_DetailModule.setText(Integer.toString(module.getExecutive_id()));
+            txfNumberOfTasks_DetailModule.setText(Integer.toString(task_of_module.size()));
             /*number_of_task.setText( java.lang.Integer.toString(task_of_module.size()));
             ID_module_details.setText(java.lang.Integer.toString(ID));
             description_module_details.setText(list_of_module.get(index).description);
@@ -1131,14 +1208,14 @@ public class TaskManagement extends javax.swing.JPanel {
         // TODO add your handling code here:
         jfAddModule.setVisible(false);
         jfAddModule.dispose();
+        cbExecutive_AddModule.removeAllItems();
+        cbExecutive_AddModule.addItem("None");
     }//GEN-LAST:event_btnCancel_AddModuleActionPerformed
 
     private void btnAdd_AddModuleadd_module_info(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd_AddModuleadd_module_info
         // TODO add your handling code here:
         if(txfName_AddModule.getText().equals(""))
         {javax.swing.JOptionPane.showMessageDialog(this,"Name box is empty!");}
-        else if(txfDescription_AddModule.getText().equals(""))
-        {javax.swing.JOptionPane.showMessageDialog(this,"Description box is empty!");}
         else {
             javax.swing.table.DefaultTableModel model_table_module = (javax.swing.table.DefaultTableModel) tblModule.getModel();
             Module m = new Module();
@@ -1146,6 +1223,9 @@ public class TaskManagement extends javax.swing.JPanel {
             m.setDescription(txfDescription_AddModule.getText());
             m.setStatus(Module.Status.NEW);
             m.setCompleteness(0);
+            if(cbExecutive_AddModule.getItemAt(cbExecutive_AddModule.getSelectedIndex()).equals("None")) {} else {
+                m.setExecutive_id(java.lang.Integer.parseInt(cbExecutive_AddModule.getItemAt(cbExecutive_AddModule.getSelectedIndex())));
+            }
             
             int n = moduleController.appendModule(m);
             
@@ -1164,6 +1244,8 @@ public class TaskManagement extends javax.swing.JPanel {
         // TODO add your handling code here:
         jfUpdateModule.setVisible(false);
         jfUpdateModule.dispose();
+        cbExecutive_UpdateModule.removeAllItems();
+        cbExecutive_UpdateModule.addItem("None");
     }//GEN-LAST:event_btnCancel_UpdateModulecancel_module_preview
 
     private void create_new_yes1confirm_to_delete(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_create_new_yes1confirm_to_delete
@@ -1196,6 +1278,13 @@ public class TaskManagement extends javax.swing.JPanel {
 
     private void btnAddTask_DetailModulecreate_new_task(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTask_DetailModulecreate_new_task
         // TODO add your handling code here:
+        ArrayList<Team> list = taskController.getAllTeams();
+        
+        for (int i = 0; i < list.size(); ++i) {
+            cbTeam_AddTask.addItem(Integer.toString(list.get(i).getId()));
+        }
+        cbMember_AddTask.setEnabled(false);
+        selectedIndex = tblModule.getSelectedRow();
         jfAddTask.setLocationRelativeTo(null);
         jfAddTask.setVisible(true);
     }//GEN-LAST:event_btnAddTask_DetailModulecreate_new_task
@@ -1228,6 +1317,7 @@ public class TaskManagement extends javax.swing.JPanel {
             jfDetailTask.setLocationRelativeTo(null);
             jfDetailTask.setVisible(true);
             //Loading information
+            selectedIndex = tblModule.getSelectedRow();
             displayTaskInfo();
         }
     }//GEN-LAST:event_btnEditTask_DetailModuleedit_task_button
@@ -1263,17 +1353,24 @@ public class TaskManagement extends javax.swing.JPanel {
         {javax.swing.JOptionPane.showMessageDialog(this,"Name box is empty!");}
         else {
             Task t = new Task();
-            t.setName(txfName_AddModule.getText());
-            t.setDescription(txfDescription_AddModule.getText());
+            t.setName(txfName_AddTask.getText());
+            t.setDescription(txfDescription_AddTask.getText());
             t.setStatus(Task.Status.NEW);
             t.setCompleteness(0);
-            javax.swing.table.DefaultTableModel model_table_module = (javax.swing.table.DefaultTableModel) tblModule.getModel();
+            javax.swing.table.DefaultTableModel model_table_task = (javax.swing.table.DefaultTableModel) tblTask_DetailModule.getModel();
+            int edit_id = (int) tblModule.getModel().getValueAt(selectedIndex,0);
+            t.setModule_id(edit_id);
+            if(cbTeam_AddTask.getItemAt(cbTeam_AddTask.getSelectedIndex()).equals("None")) {t.setTeam_id(0);} else {
+                t.setTeam_id(java.lang.Integer.parseInt(cbTeam_AddTask.getItemAt(cbTeam_AddTask.getSelectedIndex())));
+            }
+            if(cbMember_AddTask.getItemAt(cbMember_AddTask.getSelectedIndex()).equals("None")) {t.setMember_id(0);} else {
+                t.setMember_id(java.lang.Integer.parseInt(cbMember_AddTask.getItemAt(cbMember_AddTask.getSelectedIndex())));
+            }
             int n = taskController.appendTask(t);
-
-                model_table_module.addRow(new Object [] {
-                    n, t.getName(), t.getStatus(),
-                    t.getCompleteness(), t.getTeam_id(), t.getMember_id()
-                });
+            model_table_task.addRow(new Object [] {
+                n, t.getName(), t.getStatus(),
+                t.getCompleteness(), t.getTeam_id(), t.getMember_id()
+            });
         // javax.swing.JOptionPane.showMessageDialog(this,"Add data successfully!");
         jfDetailModule.setVisible(true);
         jfAddTask.setVisible(true);
@@ -1345,14 +1442,21 @@ public class TaskManagement extends javax.swing.JPanel {
     private void edit_generalModule() {
         jfUpdateModule.setLocationRelativeTo(null);
         jfUpdateModule.setVisible(true);
+        
         javax.swing.table.DefaultTableModel model_table_module = (javax.swing.table.DefaultTableModel) tblModule.getModel();
         //Load information 
         int ID = java.lang.Integer.parseInt(model_table_module.getValueAt(tblModule.getSelectedRow(),0).toString()); 
         Module m = moduleController.getModuleById(ID);
+        ArrayList<Executive> listE = moduleController.getAllExecutives();
+        int index =0;
+        for (int i = 0; i < listE.size(); ++i) {
+            if (m.getExecutive_id() == listE.get(i).getId()) index = i+1;
+        }
         txfDescription_UpdateModule.setText(m.getDescription());
         java.lang.String percent_of_module = java.lang.Integer.toString(m.getCompleteness());
         txfId_UpdateModule.setText(Integer.toString(ID));
         txfName_UpdateModule.setText(m.getName());
+        cbExecutive_UpdateModule.setSelectedIndex(index);
         Module.Status status = m.getStatus();
         int idx_status;
         switch (status) {
@@ -1378,19 +1482,42 @@ public class TaskManagement extends javax.swing.JPanel {
         //cbExecutive_UpdateModule.setText(Integer.toString(m.getExecutive_id()));
         //module_info_percent.setText(percent_of_module);
         pbCompleteness_UpdateModule.setValue(java.lang.Integer.parseInt(percent_of_module));
+        if(cbExecutive_AddModule.getItemAt(cbExecutive_AddModule.getSelectedIndex()).equals("None")) {} else {
+                m.setExecutive_id(java.lang.Integer.parseInt(cbExecutive_AddModule.getItemAt(cbExecutive_AddModule.getSelectedIndex())));
+            }
+        //cbExecutive_AddModule.removeAllItems();
+        //cbExecutive_AddModule.addItem("None");
+        moduleController.editModule(m);
     }
     
     private void displayTaskInfo() {
         //Loading task list of the module
         btnUpdate_DetailTask.setVisible(true);
         btnUpdate_DetailTask.setEnabled(true);
-        int index = java.lang.Integer.parseInt(txfId_DetailModule.getText());
+        int edit_id = (int) tblModule.getModel().getValueAt(selectedIndex,0);
         //Find the index of task nees to display
         javax.swing.table.DefaultTableModel model_table_task = (javax.swing.table.DefaultTableModel) tblTask_DetailModule.getModel();
         int ID = java.lang.Integer.parseInt(model_table_task.getValueAt(tblTask_DetailModule.getSelectedRow(),0).toString());
-        Module m = moduleController.getModuleById(index);
+        Module m = moduleController.getModuleById(edit_id);
         Task t = taskController.getTaskById(ID);
-        rxfId_DetailTask.setText(java.lang.Integer.toString(t.getId()));
+        txfId_DetailTask.setText(java.lang.Integer.toString(t.getId()));
+        if (cbTeam_DetailTask.getSelectedIndex() == 0) cbMember_DetailTask.setEnabled(false);
+        ArrayList<Team> listTeam = taskController.getAllTeams();
+        ArrayList<Member> listMember = taskController.getAllMembersByTeamID(t.getTeam_id());
+        int indexTeam = 0, indexMember = 0;
+        for (int i = 0; i < listTeam.size(); ++i) {
+            cbTeam_DetailTask.addItem(Integer.toString(listTeam.get(i).getId()));
+            if (t.getTeam_id() == listTeam.get(i).getId()) indexTeam = i+1;
+        }
+        /*for (int i = 1; i < listTeam.size()+1; ++i) {
+            if (t.getTeam_id() == Integer.parseInt(cbTeam_DetailTask.getItemAt(i))) indexTeam = i;
+        }*/
+        
+        for (int i = 1; i < listMember.size(); ++i) {
+            if (t.getMember_id() == listMember.get(i).getId()) indexMember = i+1;
+        }
+        cbTeam_DetailTask.setSelectedIndex(indexTeam);
+        cbMember_DetailTask.setSelectedIndex(indexMember);
         Task.Status status = t.getStatus();
         int idx_status=0;
         switch (status) {
@@ -1423,6 +1550,10 @@ public class TaskManagement extends javax.swing.JPanel {
     
     private void add_module(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_module
         // TODO add your handling code here:
+        ArrayList<Executive> list = moduleController.getAllExecutives();
+        for (int i = 0; i < list.size(); ++i) {
+            cbExecutive_AddModule.addItem(Integer.toString(list.get(i).getId()));
+        }
         jfAddModule.setLocationRelativeTo(null);
         jfAddModule.setVisible(true);
     }//GEN-LAST:event_add_module
@@ -1444,6 +1575,10 @@ public class TaskManagement extends javax.swing.JPanel {
 
     private void btnEditModuleedit_module_inGeneral(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditModuleedit_module_inGeneral
         // TODO add your handling code here:
+        ArrayList<Executive> list = moduleController.getAllExecutives();
+        for (int i = 0; i < list.size(); ++i) {
+            cbExecutive_UpdateModule.addItem(Integer.toString(list.get(i).getId()));
+        }
         if(tblModule.getRowCount()==0) {
             javax.swing.JOptionPane.showMessageDialog(this,"Your table is empty!");
         }
@@ -1494,7 +1629,7 @@ public class TaskManagement extends javax.swing.JPanel {
                     status = Module.Status.NEW;
             }
             java.lang.String data_module [] = {txfName_UpdateModule.getText(),txfDescription_UpdateModule.getText(),
-                /*txfExecutive_UpdateModule.getText()*/"X",state_of_status};
+                cbExecutive_UpdateModule.getItemAt(cbExecutive_UpdateModule.getSelectedIndex()),state_of_status};
             model_table_module.setValueAt(data_module[0], tblModule.getSelectedRow(), 1);
             model_table_module.setValueAt(data_module[3], tblModule.getSelectedRow(), 2);
             model_table_module.setValueAt(data_module[2], tblModule.getSelectedRow(), 4);
@@ -1505,14 +1640,17 @@ public class TaskManagement extends javax.swing.JPanel {
             m.setDescription(txfDescription_UpdateModule.getText());
             m.setStatus(status);
             m.setCompleteness(pbCompleteness_UpdateModule.getValue());
-            m.setExecutive_id(Integer.parseInt(/*txfExecutive_UpdateModule.getText()*/"0"));
+            m.setExecutive_id(Integer.parseInt(cbExecutive_UpdateModule.getItemAt(cbExecutive_UpdateModule.getSelectedIndex())));
             
             moduleController.editModule(m);
 
             jfUpdateModule.setVisible(false);
             jfUpdateModule.dispose();
             javax.swing.JOptionPane.showMessageDialog(this,"Update data successfully!");
-
+            cbExecutive_UpdateModule.removeAllItems();
+            cbExecutive_UpdateModule.addItem("None");
+            cbExecutive_AddModule.removeAllItems();
+            cbExecutive_AddModule.addItem("None");
         //}
     }//GEN-LAST:event_update_module_data
 
@@ -1555,7 +1693,7 @@ public class TaskManagement extends javax.swing.JPanel {
         }
         //start change
         java.lang.String data_task[] = {txfName_DetailTask.getText(),txfDescription_DetailTask.getText(),
-            /*task_info_imple.getText()*/"Y","",txfCompleteness_DetailTask.getText()};
+            cbTeam_DetailTask.getItemAt(cbTeam_DetailTask.getSelectedIndex()),cbMember_DetailTask.getItemAt(cbMember_DetailTask.getSelectedIndex()),txfCompleteness_DetailTask.getText()};
         //change the linked list
         //t.changeTask(data_task[0], data_task[1], data_task[2], data_task[3], java.lang.Integer.parseInt(data_task[4]));
         t.setId(ID);
@@ -1563,6 +1701,12 @@ public class TaskManagement extends javax.swing.JPanel {
         t.setDescription(txfDescription_DetailTask.getText());
         t.setStatus(status);
         t.setCompleteness(pbCompleteness_DetailTask.getValue());
+        if(cbTeam_DetailTask.getItemAt(cbTeam_DetailTask.getSelectedIndex()).equals("None")) {} else {
+            t.setTeam_id(java.lang.Integer.parseInt(cbTeam_DetailTask.getItemAt(cbTeam_DetailTask.getSelectedIndex())));
+        }
+        if(cbMember_DetailTask.getItemAt(cbMember_DetailTask.getSelectedIndex()).equals("None")) {} else {
+            t.setMember_id(java.lang.Integer.parseInt(cbMember_DetailTask.getItemAt(cbMember_DetailTask.getSelectedIndex())));
+        }
         //t.setModule_id(Integer.parseInt(txfModule_DetailTask.getText()));
         taskController.editTask(t);
         //change the table
@@ -1614,6 +1758,25 @@ public class TaskManagement extends javax.swing.JPanel {
         //filterTask(txfSearchTask_DetailModule.getText());
     }//GEN-LAST:event_txfSearchTask_DetailModuleKeyReleased
 
+    private void cbMember_AddTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMember_AddTaskActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cbMember_AddTaskActionPerformed
+
+    private void cbTeam_AddTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTeam_AddTaskActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_cbTeam_AddTaskActionPerformed
+
+    private void btnAddModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddModuleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddModuleActionPerformed
+
+    private void cbExecutive_UpdateModuleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbExecutive_UpdateModuleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbExecutive_UpdateModuleActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddModule;
@@ -1636,16 +1799,16 @@ public class TaskManagement extends javax.swing.JPanel {
     private javax.swing.JButton btnView_UpdateModule;
     private javax.swing.JButton btnYes_DeleteTaskConfirm;
     private javax.swing.JComboBox<String> cbExecutive_AddModule;
+    private javax.swing.JComboBox<String> cbExecutive_UpdateModule;
     private javax.swing.JComboBox<String> cbMember_AddTask;
+    private javax.swing.JComboBox<String> cbMember_DetailTask;
     private javax.swing.JComboBox<String> cbStatus_DetailTask;
     private javax.swing.JComboBox<String> cbStatus_UpdateModule;
     private javax.swing.JComboBox<String> cbTeam_AddTask;
+    private javax.swing.JComboBox<String> cbTeam_DetailTask;
     private javax.swing.JLabel create_new_label1;
     private javax.swing.JButton create_new_no1;
     private javax.swing.JButton create_new_yes1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel15;
@@ -1694,7 +1857,6 @@ public class TaskManagement extends javax.swing.JPanel {
     private javax.swing.JProgressBar pbCompleteness_DetailModule;
     private javax.swing.JProgressBar pbCompleteness_DetailTask;
     private javax.swing.JProgressBar pbCompleteness_UpdateModule;
-    private javax.swing.JTextField rxfId_DetailTask;
     private javax.swing.JScrollPane srpModule;
     private javax.swing.JScrollPane srpTask_DetailModule;
     private javax.swing.JLabel task_tasklist_jl;
@@ -1712,6 +1874,7 @@ public class TaskManagement extends javax.swing.JPanel {
     private javax.swing.JTextField txfDescription_UpdateModule;
     private javax.swing.JTextField txfExecutive_DetailModule;
     private javax.swing.JTextField txfId_DetailModule;
+    private javax.swing.JTextField txfId_DetailTask;
     private javax.swing.JTextField txfId_UpdateModule;
     private javax.swing.JTextField txfName_AddModule;
     private javax.swing.JTextField txfName_AddTask;

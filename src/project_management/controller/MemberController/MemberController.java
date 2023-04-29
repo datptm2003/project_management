@@ -9,6 +9,7 @@ import java.util.ArrayList;
 //import java.util.Date;
 import java.sql.*;
 import project_management.model.Team;
+import project_management.model.Executive;
 
 /**
  *
@@ -180,6 +181,7 @@ public class MemberController {
             return 0;
         }
     }
+    
     public ArrayList<Team> getAllTeams() {
         ArrayList<Team> list = new ArrayList<>();
         try {
@@ -202,5 +204,140 @@ public class MemberController {
             System.out.println(e);
             return null;
         } 
+    }
+    
+    
+    public Executive getExecutiveById(int executive_id) {
+        Executive executive;
+        try {
+            statement = connection.createStatement();
+            String query = "SELECT * FROM executive WHERE id = " + executive_id + ";";
+            ResultSet resultSet = statement.executeQuery(query);
+            
+            resultSet.next();
+            int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            String personal_id = resultSet.getString("personal_id");
+            String date_of_birth = resultSet.getString("date_of_birth");
+            Executive.Gender gender = Executive.Gender.valueOf(resultSet.getString("gender"));
+            String major = resultSet.getString("major");
+            String email = resultSet.getString("email");
+                
+            executive = new Executive(id,name,personal_id,date_of_birth,gender,major,email);
+            return executive;
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+    public ArrayList<Executive> getExecutivesByName(int member_name) {
+        ArrayList<Executive> list = new ArrayList<>();
+        try {
+            statement = connection.createStatement();
+            String query = "SELECT * FROM executive WHERE name = " + member_name + ";";
+            ResultSet resultSet = statement.executeQuery(query);
+            
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String personal_id = resultSet.getString("personal_id");
+                String date_of_birth = resultSet.getString("date_of_birth");
+                Executive.Gender gender = Executive.Gender.valueOf(resultSet.getString("gender"));
+                String major = resultSet.getString("major");
+                String email = resultSet.getString("email");
+                
+                list.add(new Executive(id,name,personal_id,date_of_birth,gender,major,email));
+            }
+            
+            return list;
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+    public ArrayList<Executive> getAllExecutives() {
+        ArrayList<Executive> list = new ArrayList<>();
+        try {
+            statement = connection.createStatement();
+            String query = "SELECT * FROM executive;";
+            ResultSet resultSet = statement.executeQuery(query);
+            
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String personal_id = resultSet.getString("personal_id");
+                String date_of_birth = resultSet.getString("date_of_birth");
+                Executive.Gender gender = Executive.Gender.valueOf(resultSet.getString("gender"));
+                String major = resultSet.getString("major");
+                String email = resultSet.getString("email");
+                
+                list.add(new Executive(id,name,personal_id,date_of_birth,gender,major,email));
+            }
+            
+            return list;
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } 
+    }
+    public int appendExecutive(Executive member) {
+        int currentId = -1;
+        try {
+            statement = connection.createStatement();
+            String query = "INSERT INTO executive (name,personal_id,date_of_birth,gender,major,email) VALUES ('" +
+                    member.getName() + "','" + member.getPersonal_id() + "','" + 
+                    member.getDate_of_birth() + "','" + member.getGender() + "','" + 
+                    member.getMajor() + "','" + member.getEmail()  + "');";
+            statement.executeUpdate(query,Statement.RETURN_GENERATED_KEYS);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            
+            if (resultSet.next()) {
+                currentId = resultSet.getInt(1);
+            }
+            
+            return currentId;
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+            return 0;
+        }
+    }
+    public void removeExecutiveById(int member_id) {
+        try {
+            statement = connection.createStatement();
+            String query = "DELETE FROM executive WHERE id = " + member_id + ";";
+            statement.executeUpdate(query);
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    public int editExecutive(Executive member) {
+        int currentId = -1;
+        try {
+            statement = connection.createStatement();
+            String query = "UPDATE member SET name='" + member.getName() + 
+                    "', personal_id='" + member.getPersonal_id() +
+                    "', date_of_birth='" + member.getDate_of_birth() + 
+                    "', gender='" + member.getGender() +
+                    "', major='" + member.getMajor() + 
+                    "', email='" + member.getEmail() + 
+                    " WHERE id=" + member.getId() + ";";
+            statement.executeUpdate(query,Statement.RETURN_GENERATED_KEYS);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            
+            if (resultSet.next()) {
+                currentId = resultSet.getInt(1);
+            }
+            
+            return currentId;
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+            return 0;
+        }
     }
 }

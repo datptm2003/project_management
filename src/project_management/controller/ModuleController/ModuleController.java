@@ -7,6 +7,7 @@ package project_management.controller.ModuleController;
 import java.sql.*;
 import java.util.ArrayList;
 import project_management.controller.ConnectDBController;
+import project_management.model.Executive;
 import project_management.model.Module;
 import project_management.model.Task;
 
@@ -126,7 +127,7 @@ public class ModuleController {
                 String description = resultSet.getString("description");
                 Module.Status status = Module.Status.valueOf(resultSet.getString("status"));
                 int completeness = resultSet.getInt("completeness");
-                int executive_id = resultSet.getInt("module_id");
+                int executive_id = resultSet.getInt("executive_id");
                 
                 list.add(new Module(id,name,description,status,completeness, executive_id));
             }
@@ -178,6 +179,7 @@ public class ModuleController {
                     "', description='" + module.getDescription() + 
                     "', status='" + module.getStatus() + 
                     "', completeness='" + module.getCompleteness() + 
+                    "', executive_id='" + module.getExecutive_id() +
                     "' WHERE id=" + module.getId() + ";";
             statement.executeUpdate(query,Statement.RETURN_GENERATED_KEYS);
             ResultSet resultSet = statement.getGeneratedKeys();
@@ -192,5 +194,31 @@ public class ModuleController {
             System.out.println(e);
             return 0;
         }
+    }
+    public ArrayList<Executive> getAllExecutives() {
+        ArrayList<Executive> list = new ArrayList<>();
+        try {
+            statement = connection.createStatement();
+            String query = "SELECT * FROM executive;";
+            ResultSet resultSet = statement.executeQuery(query);
+            
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String personal_id = resultSet.getString("personal_id");
+                String date_of_birth = resultSet.getString("date_of_birth");
+                Executive.Gender gender = Executive.Gender.valueOf(resultSet.getString("gender"));
+                String major = resultSet.getString("major");
+                String email = resultSet.getString("email");
+                
+                list.add(new Executive(id,name,personal_id,date_of_birth,gender,major,email));
+            }
+            
+            return list;
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        } 
     }
 }
